@@ -80,13 +80,13 @@ public class ZigBeeConverterTuyaButtonTest {
         when(coordinatorHandler.getLocalEndpointId(ArgumentMatchers.any(ZigBeeProfileType.class))).thenReturn(1);
 
         converter = new ZigBeeConverterTuyaButton();
-        converter.initialize(channel, coordinatorHandler, ieeeAddress, endpointId);
+        converter.initialize(thingHandler, channel, coordinatorHandler, ieeeAddress, endpointId);
     }
 
     @Test
     public void testBasicInitialization() {
         ZclCluster cluster = mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        boolean initResult = converter.initializeConverter(thingHandler);
+        boolean initResult = converter.initializeConverter();
 
         assertTrue(initResult);
         verify(cluster, times(1)).addCommandListener(converter);
@@ -96,7 +96,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testDisposalRemvoesListeners() {
         ZclCluster cluster = mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
         converter.disposeConverter();
 
         verify(cluster, times(1)).addCommandListener(converter);
@@ -108,7 +108,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testCommandHandlerInstallation() {
         ZclCluster cluster = mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         verify(cluster, times(1)).addClientCommands(any(Map.class));
     }
@@ -116,7 +116,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testShortPressCommand() {
         mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         TuyaButtonPressCommand tuyaButtonPressCommand = 
             new TuyaButtonPressCommand(0);
@@ -131,7 +131,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testDoublePressCommand() {
         mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         TuyaButtonPressCommand tuyaButtonPressCommand = 
             new TuyaButtonPressCommand(1);
@@ -146,7 +146,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testLongPressCommand() {
         mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         TuyaButtonPressCommand tuyaButtonPressCommand = 
             new TuyaButtonPressCommand(2);
@@ -161,7 +161,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testTwoCommands() {
         mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         TuyaButtonPressCommand tuyaButtonPressCommand = 
             new TuyaButtonPressCommand(0);
@@ -176,7 +176,7 @@ public class ZigBeeConverterTuyaButtonTest {
     @Test
     public void testDuplicateTransactionCommand() {
         mockCluster(ZclOnOffCluster.CLUSTER_ID);
-        converter.initializeConverter(thingHandler);
+        converter.initializeConverter();
 
         TuyaButtonPressCommand tuyaButtonPressCommand = 
             new TuyaButtonPressCommand(0);
